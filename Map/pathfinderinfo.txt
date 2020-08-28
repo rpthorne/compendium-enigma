@@ -1,0 +1,109 @@
+/*
+	 * this is the Hueristic pathfinder from College of Lake County Tech Campus (Mr. Judge)
+	 * or Digipen University
+	 * not quite sure which one deserves credit so crediting them both
+	 * also this is written in C++ (fun fact: true story) 
+	 * all of the pathfinding methods are based off of this one
+anode* SeekPath(anode* start, anode* end)
+{
+#ifdef ERROR_MESSAGES
+	ZeroMemory(&_UE,sizeof(_UE));
+	strcpy(_UE.functionName,"SeekPath");
+#endif
+
+	if(start == NULL || end == NULL)
+	    {
+	        return NULL;
+	    }
+	for(int x = 0; x < LevelBounds::WIDTH; x++)
+	{
+		for(int y = 0; y < LevelBounds::HEIGHT; y++)
+		{
+			LevelGrid[x][y].aStarStatus = 0;
+		}
+	}
+	    //Start from the beginning
+		int openListCount = 1;
+	    start->parentNode = NULL;
+	    start->distanceTravelled = 0;
+		start->aStarStatus = 1;
+	    //While there are still nodes in the open list
+	    while(openListCount > 0)
+	    {
+	        //get the first node
+	        anode* currentNode = start;
+	        int closestDistance = 1000000;
+	        //Search for the closest node
+	        for(int x = 0; x < LevelBounds::WIDTH; x++)
+			{
+		        for(int y = 0; y < LevelBounds::HEIGHT; y++)
+	    	    {
+	            	//If the distance travelled is less than the closest distance found so far
+		            if( LevelGrid[x][y].aStarStatus == 1 &&
+						LevelGrid[x][y].distanceTravelled < closestDistance
+	              )
+	        	    {
+	            	    //Mark this node as the new closest
+	                	closestDistance = LevelGrid[x][y].distanceTravelled;
+		                currentNode = &LevelGrid[x][y];
+	            	}
+				}
+	        }
+	        if(currentNode == NULL){return NULL;}
+	        //If we've reached the destination node
+	        if(currentNode == end)
+	        {
+	            //The currentNode is the tail of a linked list which connects the destination and start
+	            anode* lastNode = NULL;
+	            while(currentNode != NULL)
+	            {
+	                anode* temp = currentNode->parentNode;
+	                currentNode->parentNode = lastNode;
+	                lastNode = currentNode;
+	                currentNode = temp;
+	                //A[NULL] B[A] C[B] D[C]
+	                //A[B] B[C] C[D] D[NULL]
+	                //ln = A
+	                //temp = NULL
+	                //current = NULL
+
+	            }
+	            return lastNode;
+	        }
+	        else // if we haven't reached the start node
+	        {
+	            //Move current node to the closed list, since we'll consider all paths that run through it
+				currentNode->aStarStatus = 2;
+	openListCount--;
+	            //For each adjacent node
+	            for(int i = 0; i < 4; i++)
+	            {
+	                //Check to make sure the node is in bounds
+	                anode* examineNode = currentNode->neighbor[i];
+	                if(examineNode != NULL)
+	                {
+	                        //If node has not been found on either list
+	                        if(examineNode->aStarStatus == 0)
+	                        {
+	                            //If the node is passable
+	                            if(examineNode && examineNode->passable)
+	                            {
+	                            	//Ad the node to the open list for future consideration
+									examineNode->aStarStatus = 1;
+									openListCount++;
+	                                //Link the examined node to the current node
+	                                examineNode->parentNode = currentNode;
+
+	                                //Note the distance travelled to get here
+	                              examineNode->distanceTravelled = examineNode->parentNode->distanceTravelled + 1;
+	                            }
+	                        }
+	                }
+	            }
+	        }
+	    }
+
+	//This is a safety, if there is no path then we return NULL
+	return NULL;
+	 */
+
